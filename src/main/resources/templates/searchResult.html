@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты поиска по запросу</title>
+</head>
+<body>
+
+<div class="container">
+    <p>Запрос</p>
+    <h2 data-th-text="${requestDto.content}"></h2>
+    <hr>
+    <div>
+        <div data-th-if="${requestDto.requestResult}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Критерий релевантности</th>
+                    <th>Результат выполнения запроса</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr data-th-if="${requestDto.requestResult.empty}">
+                    <td colspan="2"> Нет данных по этому запросу</td>
+                </tr>
+                <tr data-th-each="element : ${requestDto.requestResult}">
+                    <td><span data-th-text="${element.relevanceCriteria}">CR</span></td>
+                    <td><span data-th-text="${element.line}">Line</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<div><a data-th-href="@{/dictionary_search/}"> вернуться и поискать другой запрос</a></div>
+</body>
+</html>

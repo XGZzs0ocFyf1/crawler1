@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <div data-th-if="${message}">
+                <h3 data-th-text="${message}"></h3>
+            </div>
+        </div>
+
+
+<!--        обертка для форм загрузки словаря и ввода поискового выражения -->
+        </div>
+
+        <div class="registration">
+            <h2>Поиск выражения по словарю</h2>
+
+<!--            форма загрузки словаря-->
+            <form method="POST" action="/dictionary_search/upload" enctype="multipart/form-data">
+                <input type="file" name="file"/><br/><br/>
+                <input type="submit" value="Загрузить словарь"/>
+            </form>
+
+            <div data-th-text="${uploadStatus}">Заглушка: словарь не загружен</div>
+
+
+<!--            форма ввода поискового запроса-->
+            <form method="POST" data-th-action="@{/dictionary_search/find}" data-th-object="${requestDto}" >
+                <input type="text"  data-th-field="*{content}" value="Поле ввода строки"><br/><br/>
+                <input type="submit" value="Найти"/>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

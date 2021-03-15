@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>ru.gurzhiy</groupId>
+    <artifactId>crawler</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>crawler</name>
+    <description>dictionary crawler</description>
+
+
+    <!--    см в профили: war  или jar-->
+    <packaging>${packaging.type}</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <!--    профили запуска приложения. по умолчанию запускается встроенный Tomcat встроенный в Spring-->
+    <profiles>
+
+        <!--            профиль по умолчанию-->
+        <profile>
+            <id>embedded-tomcat</id>
+            <activation>
+                <property>
+                    <name>run_tomcat</name>
+                    <value>!true</value>
+                </property>
+            </activation>
+
+            <properties>
+                <packaging.type>jar</packaging.type>
+                <powermock.version>2.0.2</powermock.version>
+            </properties>
+        </profile>
+
+
+        <!--  профиль для запуска на внешнем контейнере томкет. проверен на ТС v.9.0.41, который поднимал из IDE -->
+        <!--        mvn command1 command2 -Drun_tomcat=true -->
+        <profile>
+            <id>run_tomcat</id>
+            <activation>
+                <property>
+                    <name>run_tomcat</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <properties>
+                <packaging.type>war</packaging.type>
+            </properties>
+
+            <dependencies>
+                <!--        для запуска на внешнем контейнере Tomcat-->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+
+        </profile>
+    </profiles>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+
+
+
+        <!-- Для тестов, функционал данной библиотеки не используется при решении задачи -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--            здесь почему-то у меня возникла проблема с плагином v3.2.0, пришлось понизить его версию-->
+            <!--            https://github.com/spring-projects/spring-boot/issues/24346-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
